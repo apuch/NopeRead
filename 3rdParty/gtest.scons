@@ -1,0 +1,12 @@
+Import('env')
+
+gtest_dir = env['gtest_dir']
+
+import os
+
+env['libGtest'] = env.Library(
+    target = 'gtest',
+    source = os.path.join(gtest_dir, 'src', 'gtest-all.cc'),
+    LIBS = ['pthread'],
+    CPPPATH = [os.path.join(gtest_dir, 'include'), gtest_dir]
+)

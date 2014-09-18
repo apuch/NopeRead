@@ -1,7 +1,7 @@
 
-void do_test();
+#include "gtest/gtest.h"
 
 int main(int argc, char** argv) {
-    do_test();
-    return 0;
+    ::testing::InitGoogleTest(&argc, argv);
+    return RUN_ALL_TESTS();
 }

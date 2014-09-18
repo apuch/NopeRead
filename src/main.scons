@@ -1,9 +1,11 @@
 Import('env')
 # env.Tool('Make')
 
+import os
+
 source = [
     'debug.cpp',
-    'test.cpp'
+    'test.cpp',
 ]
 
 LIBS = ['m', 'rt', 'fl', 'pthread']
@@ -34,4 +36,5 @@ NopeRead = env.Library(
 #    Depends(StreamParse, cclLib)
 #
 #do_ccl()
+
 

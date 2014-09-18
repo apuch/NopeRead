@@ -1,12 +1,17 @@
 Import('env')
 
+import os
+
+
 source = [
-    'main.cpp',
+    'main.cpp'
 ]
 
-CFLAGS='-Wall -Werror -DLOG_LEVEL_DEF=3 -g -Wno-unused-function -std=gnu99'
-LIBS = [ 'NopeLib', 'm', 'rt', 'pthread']
-LIBPATH = [ '../main' ]
-env.Program(target = 'main', source = source, LIBS = LIBS, 
-    CPATH='.', CFLAGS = CFLAGS, LIBPATH= LIBPATH)
+CPPFLAGS='-Wall -Werror -DLOG_LEVEL_DEF=3 -g -Wno-unused-function'
+CPPPATH = [ '.', os.path.join(env['gtest_dir'], 'include')]
+    
+LIBS = [ 'NopeLib', 'gtest', 'm', 'rt', 'pthread']
+LIBPATH = [ '../main', '../gtest' ]
+main = env.Program(target = 'main', source = source, LIBS = LIBS, 
+    CPPPATH=CPPPATH, CPPFLAGS = CPPFLAGS, LIBPATH= LIBPATH)
 
