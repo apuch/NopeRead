@@ -28,5 +28,5 @@
 *.app
 
 # build environ
-built/
+build/
 .sconsign.dblite

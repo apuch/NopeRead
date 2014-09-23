@@ -4,11 +4,15 @@ import os
 
 
 source = [
-    'main.cpp'
+    'main.cpp',
+    'lemon_test.cpp',
+    'lexer_test.cpp'
 ]
 
 CPPFLAGS='-Wall -Werror -DLOG_LEVEL_DEF=3 -g -Wno-unused-function'
-CPPPATH = [ '.', os.path.join(env['gtest_dir'], 'include')]
+
+main_dir = env['variant_main']
+CPPPATH = [ '.', os.path.join(env['gtest_dir'], 'include'), main_dir]
     
 LIBS = [ 'NopeLib', 'gtest', 'm', 'rt', 'pthread']
 LIBPATH = [ '../main', '../gtest' ]

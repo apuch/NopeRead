@@ -5,6 +5,9 @@ import os
 
 source = [
     'debug.cpp',
+    'lemon_parser.cpp',
+    'lexer.cpp',
+    'lexer.internal.cc',
     'test.cpp',
 ]
 
@@ -20,21 +23,15 @@ NopeRead = env.Library(
 )
 
 
-# CCL
-#def do_ccl():
-#    ccl_dir = env['ccl_dir']
-#    ccl_src = Glob(ccl_dir + '/*.c')
-#    ccl_lib = ccl_dir + '/libccl.a'
-#    ccl_dest = env['variant_dir'] + '/libccl.a'
-#    cclLibBuild = env.Make(
-#        source = ccl_src, 
-#        target = [ccl_lib], 
-#        MakePath = Dir(ccl_dir))    
-#    cclLib = env.Command(
-#        ccl_dest, ccl_lib, 'cp %s %s' % (ccl_lib, ccl_dest))
-#    Depends(cclLib, cclLibBuild)
-#    Depends(StreamParse, cclLib)
-#
-#do_ccl()
+# moveBld = env.Move("lemon_parser.cpp", "lemon_parser.c")
+env.Lemon(['lemon_parser.c', 'lemon_parser.h'], 'lemon_parser.yy')
+env.Command( "lemon_parser.cpp", "lemon_parser.c", 
+        Move("$TARGET", "$SOURCE"))
+
+flexHeaderFile = os.path.join(env['variant_dir'], 'lexer.defines.h')
+env['LEXFLAGS'] = '--header-file=' + flexHeaderFile 
+env.CXXFile(source = 'lexer.internal.ll')
+
+Depends(NopeRead, env['Lemon'])
 
 

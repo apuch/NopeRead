@@ -1,0 +1,21 @@
+Import('env')
+import os
+
+lemon_exe = os.path.join(env['variant_dir'], 'lemon')
+lempar = os.path.join(env['lemon_dir'], 'lempar.c')
+
+bld = Builder(action = 'cp -f %s . && %s $SOURCE' % (lempar, lemon_exe))
+env.Append(BULDERS = {'Lemon' : bld }) 
+
+env['Lemon'] = env.Program(
+    target = 'lemon',
+    source = os.path.join(env['lemon_dir'], 'lemon.c')
+)
+
+lemon_exe = os.path.join(env['variant_dir'], 'lemon')
+lempar = os.path.join(env['lemon_dir'], 'lempar.c')
+
+env['lemon_exe'] = os.path.join(env['variant_dir'], 'lemon')
+env['lemon_par'] = lempar
+
+
