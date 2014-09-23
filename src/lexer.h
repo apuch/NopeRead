@@ -1,6 +1,9 @@
 #ifndef _LEXER_H
 #define _LEXER_H
 
+namespace Nope {
+namespace Lexer {
+
 struct LexerToken {
     int Id;
     union {
@@ -22,6 +25,8 @@ private:
     void* pimpl;
 
 };
+
+}}
 
 #endif
 

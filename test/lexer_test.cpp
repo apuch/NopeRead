@@ -5,6 +5,7 @@
 
 #include "lemon_parser.h"
 
+using namespace Nope::Lexer;
 
 class LexerTest : public testing::Test {
 protected:

@@ -9,6 +9,8 @@
 #define LOG_LEVEL LOG_LEVEL_SPAM
 #include "debug.h"
 
+using namespace Nope::Lexer;
+
 namespace {
 
 struct BufferState {
@@ -86,6 +88,9 @@ int yywrap() {
 
 #define P ((PLexer*)pimpl)
 
+namespace Nope {
+namespace Lexer {
+
 Lexer::Lexer() : pimpl(new PLexer()) {}
 
 Lexer::~Lexer() { delete P; }
@@ -95,4 +100,5 @@ int Lexer::Lex(LexerToken* t) { return P->Lex(t); }
 
 void Lexer::SetText(const char* data) { P->SetText(data); }
 
+}}
 
