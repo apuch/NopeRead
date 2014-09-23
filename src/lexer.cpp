@@ -9,7 +9,7 @@
 #define LOG_LEVEL LOG_LEVEL_SPAM
 #include "debug.h"
 
-using namespace Nope::Lexer;
+using namespace Nope::Parser;
 
 namespace {
 
@@ -89,7 +89,7 @@ int yywrap() {
 #define P ((PLexer*)pimpl)
 
 namespace Nope {
-namespace Lexer {
+namespace Parser {
 
 Lexer::Lexer() : pimpl(new PLexer()) {}
 

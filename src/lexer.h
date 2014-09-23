@@ -2,7 +2,7 @@
 #define _LEXER_H
 
 namespace Nope {
-namespace Lexer {
+namespace Parser {
 
 struct LexerToken {
     int Id;
