@@ -15,6 +15,8 @@
 -       return MINUS;
 \/      return DIVIDE;
 \*      return TIMES;
+\(      return BRACE_L;
+\)      return BRACE_R;
 
 [1-9][0-9]* {  
     lexerToken.iVal = atoi(yytext); 

@@ -29,12 +29,14 @@ TEST_F(LexerTest, creatingInstance) {
     // constructor is enough :P
 }
 
-TEST_F(LexerTest, operators) {
-    lexer->SetText("+ - * /");
+TEST_F(LexerTest, symbols) {
+    lexer->SetText("+ - * / ( ) ");
     ASSERT_EQ(PLUS, lexer->Lex());
     ASSERT_EQ(MINUS, lexer->Lex());
     ASSERT_EQ(TIMES, lexer->Lex());
     ASSERT_EQ(DIVIDE, lexer->Lex());
+    ASSERT_EQ(BRACE_L, lexer->Lex());
+    ASSERT_EQ(BRACE_R, lexer->Lex());
     ASSERT_EQ(0, lexer->Lex());
 }
 

@@ -17,7 +17,7 @@ program ::= expr(A).   { std::cout << "Result=" << A << std::endl; }
    
 expr(A) ::= expr(B) MINUS  expr(C).   { A = B - C; }  
 expr(A) ::= expr(B) PLUS  expr(C).   { A = B + C; }  
-expr(A) ::= expr(B) TIMES  expr(C).   { A = B * C; }  
+expr(A) ::= expr(B) TIMES  expr(C).   { A = B * C; }
 expr(A) ::= expr(B) DIVIDE expr(C).  { 
 
          if(C != 0){
@@ -25,6 +25,9 @@ expr(A) ::= expr(B) DIVIDE expr(C).  {
           }else{
            std::cout << "divide by zero" << std::endl;
            }
-}  
+}
+expr(A) ::= BRACE_L expr(B) BRACE_R . { A = B; }
+
+
 expr(A) ::= INTEGER(B). { A = B; } 
 
