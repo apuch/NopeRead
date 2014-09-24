@@ -33,6 +33,11 @@ struct PSymbolBuilder {
     int m_line;
     int m_column;
 
+    PSymbolBuilder() :
+        m_line(-1),
+        m_column(-1)
+    {}
+
     Symbol* Build() {
         Symbol* s = new Symbol();
         ((Symbol*)s)->p->m_line = m_line;

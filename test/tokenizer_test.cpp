@@ -27,3 +27,9 @@ TEST_F(SymbolBuilderTest, LineAndColumn) {
     ASSERT_EQ(3, m_symbol->GetLine());
     ASSERT_EQ(4, m_symbol->GetColumn());
 }
+
+TEST_F(SymbolBuilderTest, LineAndColumnDefault) {
+    m_symbol = m_builder.Build();
+    ASSERT_EQ(-1, m_symbol->GetLine());
+    ASSERT_EQ(-1, m_symbol->GetColumn());
+}
