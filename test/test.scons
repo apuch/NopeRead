@@ -6,7 +6,8 @@ import os
 source = [
     'main.cpp',
     'lemon_test.cpp',
-    'lexer_test.cpp'
+    'lexer_test.cpp',
+    'tokenizer_test.cpp',
 ]
 
 CPPFLAGS='-Wall -Werror -DLOG_LEVEL_DEF=3 -g -Wno-unused-function'

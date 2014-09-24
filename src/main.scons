@@ -9,6 +9,7 @@ source = [
     'lexer.cpp',
     'lexer.internal.cc',
     'test.cpp',
+    'tokenizer.cpp',
 ]
 
 LIBS = ['m', 'rt', 'fl', 'pthread']
