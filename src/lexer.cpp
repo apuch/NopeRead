@@ -9,8 +9,6 @@
 #define LOG_LEVEL LOG_LEVEL_SPAM
 #include "debug.h"
 
-using namespace Nope::Parser;
-
 namespace {
 
 struct BufferState {
@@ -22,6 +20,12 @@ struct BufferState {
         yy_delete_buffer(m_state);
     }
 };
+
+}
+
+namespace Nope {
+namespace Lexer {
+
 
 class PLexer;
 
@@ -74,31 +78,26 @@ public:
     }
 };
 
-}
 
-int yyerror(const char* msg) {
-    return _instance->yyerror(msg);
-}
-
-int yywrap() {
-    return _instance->yywrap();
-}
 
 /***************************************************************************/
 
-#define P ((PLexer*)pimpl)
+Lexer::Lexer() : p(new PLexer()) {}
 
-namespace Nope {
-namespace Parser {
+Lexer::~Lexer() { delete p; }
 
-Lexer::Lexer() : pimpl(new PLexer()) {}
+int Lexer::Lex() { return p->Lex(); }
+int Lexer::Lex(LexerToken* t) { return p->Lex(t); }
 
-Lexer::~Lexer() { delete P; }
-
-int Lexer::Lex() { return P->Lex(); }
-int Lexer::Lex(LexerToken* t) { return P->Lex(t); }
-
-void Lexer::SetText(const char* data) { P->SetText(data); }
+void Lexer::SetText(const char* data) { p->SetText(data); }
 
 }}
+
+int yyerror(const char* msg) {
+    return Nope::Lexer::_instance->yyerror(msg);
+}
+
+int yywrap() {
+    return Nope::Lexer::_instance->yywrap();
+}
 

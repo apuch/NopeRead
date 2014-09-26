@@ -2,7 +2,7 @@
 #define _LEXER_H
 
 namespace Nope {
-namespace Parser {
+namespace Lexer {
 
 struct LexerToken {
     int Id;
@@ -11,6 +11,7 @@ struct LexerToken {
     };
 };
 
+class PLexer;
 class Lexer {
 public:
     Lexer();
@@ -22,8 +23,7 @@ public:
     int Lex(LexerToken*);
 
 private:
-    void* pimpl;
-
+    PLexer* p;
 };
 
 }}
