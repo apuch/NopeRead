@@ -28,8 +28,8 @@ Position& Position::operator=(const Position& rhs) {
     return *this;
 }
 Position::~Position() { delete p; }
-int Position::Line() { return p->m_line; }
-int Position::Column() { return p->m_column; }
+int Position::GetLine() { return p->m_line; }
+int Position::GetColumn() { return p->m_column; }
         
 
 
@@ -39,12 +39,16 @@ int Position::Column() { return p->m_column; }
 
 class PSymbol {
 public:
+    Position m_pos;
 
     PSymbol() {}
 };
 
 Symbol::Symbol() : p(new PSymbol()) {}
 Symbol::~Symbol() { delete p; }
+
+Position& Symbol::GetPosition() { return p->m_pos; }
+void Symbol::SetPosition(const Position& pos) { p->m_pos = pos; }
 
 
 }}}

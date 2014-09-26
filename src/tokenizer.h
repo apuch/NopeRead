@@ -14,8 +14,8 @@ public:
     Position(const Position& p);
     ~Position();
     Position& operator=(const Position& rhs);
-    int Line();
-    int Column();
+    int GetLine();
+    int GetColumn();
 private:
     PPosition* p;
 };
@@ -25,6 +25,10 @@ class Symbol {
 public:
     Symbol();
     virtual ~Symbol();
+
+    Position& GetPosition(); 
+    void SetPosition(const Position&);
+
 
 private:
     PSymbol* p;
