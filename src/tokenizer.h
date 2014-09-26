@@ -3,45 +3,33 @@
 
 namespace Nope {
 namespace Parser {
+namespace AST {
 
-class SymbolBuilder;
-class PSymbolBuilder;
+class PPosition;
+class Position {
+public:
+    Position();
+    Position(int line);
+    Position(int line, int column);
+    Position(const Position& p);
+    ~Position();
+    Position& operator=(const Position& rhs);
+    int Line();
+    int Column();
+private:
+    PPosition* p;
+};
 
 class PSymbol;
 class Symbol {
 public:
     Symbol();
     virtual ~Symbol();
-    int GetLine();
-    int GetColumn();
+
 private:
-    PSymbol *p;
-
-    friend class SymbolBuilder;
-    friend class PSymbolBuilder;
-    
+    PSymbol* p;
 };
 
-class Terminal : public Symbol {
-public:
-    int Line();
-    int Column();
-};
-
-class SymbolBuilder {
-public:
-    SymbolBuilder();
-    ~SymbolBuilder();
-
-    void SetLine(int line);
-    void SetColumn(int column);
-
-    Symbol* Build();
-private:
-    PSymbolBuilder* p;
-};
-
-
-}}
+}}}
 
 #endif

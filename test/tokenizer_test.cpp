@@ -2,11 +2,10 @@
 
 #include "tokenizer.h"
 
-using namespace Nope::Parser;
+using namespace Nope::Parser::AST;
 
-class SymbolBuilderTest : public testing::Test {
+class SymbolTest : public testing::Test {
 protected:
-    SymbolBuilder m_builder;
     Symbol* m_symbol;
 
     virtual void SetUp() {
@@ -19,17 +18,26 @@ protected:
 
 };
 
-TEST_F(SymbolBuilderTest, LineAndColumn) {
-    m_builder.SetLine(3);
-    m_builder.SetColumn(4);
+TEST_F(SymbolTest, Position) {
+    Position p1;
+    ASSERT_EQ(-1, p1.Line());
+    ASSERT_EQ(-1, p1.Column());
 
-    m_symbol = m_builder.Build();
-    ASSERT_EQ(3, m_symbol->GetLine());
-    ASSERT_EQ(4, m_symbol->GetColumn());
+    Position p2(3);
+    ASSERT_EQ(3, p2.Line());
+    ASSERT_EQ(-1, p2.Column());
+
+    Position p3(3, 4);
+    ASSERT_EQ(3, p3.Line());
+    ASSERT_EQ(4, p3.Column());
+
+    Position p4(p3);
+    ASSERT_EQ(3, p4.Line());
+    ASSERT_EQ(4, p4.Column());
+
+    Position p5; 
+    p5 = p3;
+    ASSERT_EQ(3, p5.Line());
+    ASSERT_EQ(4, p5.Column());
 }
 
-TEST_F(SymbolBuilderTest, LineAndColumnDefault) {
-    m_symbol = m_builder.Build();
-    ASSERT_EQ(-1, m_symbol->GetLine());
-    ASSERT_EQ(-1, m_symbol->GetColumn());
-}

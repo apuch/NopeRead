@@ -2,6 +2,36 @@
 
 namespace Nope {
 namespace Parser {
+namespace AST {
+
+////////////////////////////////////////////////////////////////////////////
+// Symbol
+////////////////////////////////////////////////////////////////////////////
+
+class PPosition {
+public:
+    int m_line;
+    int m_column;
+    PPosition(int line, int column) :
+        m_line(line), m_column(column)
+    {}
+};
+
+Position::Position() : p(new PPosition(-1, -1)) {}
+Position::Position(int line) : p(new PPosition(line, -1)) {}
+Position::Position(int line, int col) : p(new PPosition(line, col)) {}
+Position::Position(const Position& rhs) :
+    p(new PPosition(rhs.p->m_line, rhs.p->m_column)) {}
+Position& Position::operator=(const Position& rhs) {
+    p->m_line = rhs.p->m_line;
+    p->m_column = rhs.p->m_column;
+    return *this;
+}
+Position::~Position() { delete p; }
+int Position::Line() { return p->m_line; }
+int Position::Column() { return p->m_column; }
+        
+
 
 ////////////////////////////////////////////////////////////////////////////
 // Symbol
@@ -9,51 +39,13 @@ namespace Parser {
 
 class PSymbol {
 public:
-    int m_line;
-    int m_column;
 
-    PSymbol() : 
-        m_line(-1),
-        m_column(-1)
-    {}
+    PSymbol() {}
 };
 
 Symbol::Symbol() : p(new PSymbol()) {}
 Symbol::~Symbol() { delete p; }
-int Symbol::GetLine() { return p->m_line; }
-int Symbol::GetColumn() { return p->m_column; }
 
 
-////////////////////////////////////////////////////////////////////////////
-// SymbolBuilder
-////////////////////////////////////////////////////////////////////////////
-
-
-struct PSymbolBuilder {
-    int m_line;
-    int m_column;
-
-    PSymbolBuilder() :
-        m_line(-1),
-        m_column(-1)
-    {}
-
-    Symbol* Build() {
-        Symbol* s = new Symbol();
-        ((Symbol*)s)->p->m_line = m_line;
-        ((Symbol*)s)->p->m_column = m_column;
-
-        return s;
-    }
-};
-
-SymbolBuilder::SymbolBuilder() : p(new PSymbolBuilder()) {}
-SymbolBuilder::~SymbolBuilder() { delete p; }
-
-Symbol* SymbolBuilder::Build() { return p->Build(); }
-void SymbolBuilder::SetLine(int line) { p->m_line = line; }
-void SymbolBuilder::SetColumn(int column) { p->m_column = column; }
-
-
-}}
+}}}
 
