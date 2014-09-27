@@ -13,14 +13,14 @@ source = [
 ]
 
 LIBS = ['m', 'rt', 'fl', 'pthread']
-CFLAGS='-Wall -Werror -DLOG_LEVEL_DEF=3 -g -Wno-unused-function -std=gnu99'
+CXXFLAGS='-Wall -Werror -DLOG_LEVEL_DEF=3 -g -Wno-unused-function -std=c++11'
 
 NopeRead = env.Library(
     target = 'NopeLib', 
     source = source, 
     LIBS=LIBS, 
     CPATH='.', 
-    CFLAGS=CFLAGS
+    CXXFLAGS=CXXFLAGS
 )
 
 
