@@ -11,8 +11,6 @@
             }
         }
     }
-    //Nope::Parser::AST::Terminal *_lexerTerminal;
-
     using namespace Nope::Parser;
 
     static int lexerLinenum = 0;
