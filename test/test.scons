@@ -10,7 +10,7 @@ source = [
     'tokenizer_test.cpp',
 ]
 
-CPPFLAGS='-Wall -Werror -DLOG_LEVEL_DEF=3 -g -Wno-unused-function'
+CPPFLAGS='-Wall -Werror -DLOG_LEVEL_DEF=3 -g -Wno-unused-function -std=c++11'
 
 main_dir = env['variant_main']
 CPPPATH = [ '.', os.path.join(env['gtest_dir'], 'include'), main_dir]

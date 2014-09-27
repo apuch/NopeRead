@@ -50,6 +50,33 @@ Symbol::~Symbol() { delete p; }
 Position& Symbol::GetPosition() { return p->m_pos; }
 void Symbol::SetPosition(const Position& pos) { p->m_pos = pos; }
 
+////////////////////////////////////////////////////////////////////////////
+// Symbol
+////////////////////////////////////////////////////////////////////////////
 
+class PTerminal {
+public:
+    int m_code;    
+    PTerminal() : m_code(-1) {}
+};
+
+Terminal::Terminal() : p(new PTerminal()) {}
+Terminal::~Terminal() { delete p; }
+
+void Terminal::SetCode(int code) { p->m_code = code; }
+int Terminal::GetCode() { return p->m_code; }
+
+
+////////////////////////////////////////////////////////////////////////////
+// IntTerminal
+////////////////////////////////////////////////////////////////////////////
+
+IntTerminal::IntTerminal() : m_num(0) {}
+int IntTerminal::GetNumber() { return m_num; }
+void IntTerminal::SetNumber(int num) { m_num = num; }
+
+
+////////////////////////////////////////////////////////////////////////////
 }}}
+
 

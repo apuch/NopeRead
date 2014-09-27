@@ -2,14 +2,14 @@
 #define _LEXER_H
 
 namespace Nope {
-namespace Lexer {
 
-struct LexerToken {
-    int Id;
-    union {
-        int iVal;  
-    };
-};
+namespace Parser {
+    namespace AST {
+        class Terminal;
+    }
+}
+
+namespace Lexer {
 
 class PLexer;
 class Lexer {
@@ -19,8 +19,7 @@ public:
 
     void SetText(const char* text);
     
-    int Lex();
-    int Lex(LexerToken*);
+    Parser::AST::Terminal* Lex();
 
 private:
     PLexer* p;

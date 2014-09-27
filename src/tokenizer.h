@@ -29,9 +29,29 @@ public:
     Position& GetPosition(); 
     void SetPosition(const Position&);
 
-
 private:
     PSymbol* p;
+};
+
+class PTerminal;
+class Terminal : public Symbol {
+public: 
+    Terminal();
+    ~Terminal();
+
+    void SetCode(int code);
+    int GetCode();
+private:
+    PTerminal* p;
+};
+
+class IntTerminal : public Terminal {
+public:
+    IntTerminal();
+    int GetNumber();
+    void SetNumber(int num);
+private:
+    int m_num;
 };
 
 }}}

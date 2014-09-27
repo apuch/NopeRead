@@ -3,6 +3,8 @@
 #include "lexer.defines.h"
 #include "lexer.internal.h"
 
+#include "tokenizer.h"
+
 #include <string>
 
 
@@ -23,6 +25,8 @@ struct BufferState {
 
 }
 
+using namespace Nope::Parser::AST;
+
 namespace Nope {
 namespace Lexer {
 
@@ -35,15 +39,18 @@ class PLexer {
 public:
     std::string m_errormsg;
     BufferState* m_bufferState;
+    Symbol* m_sym;
 
     PLexer() {
         _instance = this;      
         m_bufferState = NULL;
+        m_sym = NULL;
     }
 
     ~PLexer() {
         _instance = NULL;
         delete m_bufferState;
+        delete m_sym;
     }
 
     void freeData() {
@@ -55,21 +62,18 @@ public:
         m_bufferState = new BufferState(data);
     }
 
-    int Lex() {
-        int res = yylex();
-        return res;
+    Terminal* Lex() {
+        int r = yylex();
+        if (_lexerTerminal != NULL && r != 0)
+            _lexerTerminal->SetCode(r);
+        return r == 0 ? NULL : _lexerTerminal;
     }
 
-    int Lex(LexerToken* token) {
-        token->Id = yylex();
-        memcpy(&token->iVal, &lexerToken, sizeof(lexerToken));
-        return token->Id;
-    }
-    
     int yyerror(const char* msg) {
         m_errormsg = msg;
         TR_ERR("Parsing error - line %d, text `%s`, msg `%s`", 
             yylineno, yytext, msg);
+        return 0;
         
     }
 
@@ -86,8 +90,9 @@ Lexer::Lexer() : p(new PLexer()) {}
 
 Lexer::~Lexer() { delete p; }
 
-int Lexer::Lex() { return p->Lex(); }
-int Lexer::Lex(LexerToken* t) { return p->Lex(t); }
+Terminal* Lexer::Lex() {
+    return p->Lex();
+}
 
 void Lexer::SetText(const char* data) { p->SetText(data); }
 
