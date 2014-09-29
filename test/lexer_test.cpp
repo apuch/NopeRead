@@ -30,7 +30,19 @@ protected:
         return m_term;        
     }
 
+    void testPos(int line, int col) {
+        EXPECT_TRUE(m_term != NULL);
+        EXPECT_EQ(line, m_term->GetPosition().GetLine());
+        EXPECT_EQ(col,  m_term->GetPosition().GetColumn());
+    }
 
+    void testNum(const char* text, int expected) {
+        lexer->SetText(text);
+        auto t = dynamic_cast<IntTerminal*>(nextToken());
+        ASSERT_TRUE(t != NULL);
+        ASSERT_EQ(INTEGER, t->GetCode());
+        ASSERT_EQ(expected, t->GetNumber());
+    }
 };
 
 TEST_F(LexerTest, creatingInstance) {
@@ -38,32 +50,41 @@ TEST_F(LexerTest, creatingInstance) {
 }
 
 TEST_F(LexerTest, Integer) {
-    lexer->SetText("12345");
-    auto t = dynamic_cast<IntTerminal*>(nextToken());
-    ASSERT_TRUE(t != NULL);
-    ASSERT_EQ(INTEGER, t->GetCode());
-    ASSERT_EQ(12345, t->GetNumber());
+    testNum("12345", 12345);
+}
+
+TEST_F(LexerTest, IntegerZero) {
+    testNum("0", 0);
+}
+
+TEST_F(LexerTest, IntegerZeroOct) {
+    testNum("00", 0);
 }
 
 TEST_F(LexerTest, IntegerOct) {
-    lexer->SetText("012345");
-    auto t = dynamic_cast<IntTerminal*>(nextToken());
-    ASSERT_TRUE(t != NULL);
-    ASSERT_EQ(INTEGER, t->GetCode());
-    ASSERT_EQ(012345, t->GetNumber());
+    testNum("012345", 012345);
 }
 
 TEST_F(LexerTest, IntegerHex) {
-    lexer->SetText("0x12345");
-    auto t = dynamic_cast<IntTerminal*>(nextToken());
-    ASSERT_TRUE(t != NULL);
-    ASSERT_EQ(INTEGER, t->GetCode());
-    ASSERT_EQ(0x12345, t->GetNumber());
+    testNum("0x12345", 0x12345);
 }
 
 TEST_F(LexerTest, IntegerHex2) {
-    lexer->SetText("0xF00BA4 0xf00ba4");
-    ASSERT_EQ(0xF00BA4, dynamic_cast<IntTerminal*>(nextToken())->GetNumber());
-    ASSERT_EQ(0xf00ba4, dynamic_cast<IntTerminal*>(nextToken())->GetNumber());
+    testNum("0xF00BA4", 0xf00ba4);
+    testNum("0xf00ba4", 0xf00ba4);
+    testNum("0xf00BA4", 0xf00ba4);
+}
+
+TEST_F(LexerTest, LineAndCol) {
+    lexer->SetText("1  1\n"
+                   " 2 3\r\n"
+                   "  4\n"
+                   "\t5");
+    nextToken(); testPos(1,1); 
+    nextToken(); testPos(1,4); 
+    nextToken(); testPos(2,2); 
+    nextToken(); testPos(2,4); 
+    nextToken(); testPos(3,3); 
+    nextToken(); testPos(4,5); 
 }
 

@@ -60,6 +60,7 @@ public:
     void SetText(const char* data) {
         freeData();
         m_bufferState = new BufferState(data);
+        _lexerResetPos();
     }
 
     Terminal* Lex() {

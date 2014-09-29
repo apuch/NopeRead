@@ -5,10 +5,15 @@ namespace Nope {
     namespace Parser {
         namespace AST {
             class Terminal;            
-            extern Terminal* _lexerTerminal;
         }
     }
+    namespace Lexer {
+        extern Parser::AST::Terminal* _lexerTerminal;
+        void _resetState();
+    }
 }
+
+void _lexerResetPos();
 
 #endif
 
