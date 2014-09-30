@@ -1,5 +1,8 @@
 #include "tokenizer.h"
 
+//#define LOG_LEVEL LOG_LEVEL_SPAM
+#include "debug.h"
+
 namespace Nope {
 namespace Parser {
 namespace AST {
@@ -41,7 +44,12 @@ class PSymbol {
 public:
     Position m_pos;
 
-    PSymbol() {}
+    PSymbol() { 
+        TR_SPAM("Symbol constructor");
+    }
+    ~PSymbol() {
+        TR_SPAM("Symbol destructor");
+    }
 };
 
 Symbol::Symbol() : p(new PSymbol()) {}
@@ -74,7 +82,6 @@ int Terminal::GetCode() { return p->m_code; }
 IntTerminal::IntTerminal() : m_num(0) {}
 int IntTerminal::GetNumber() { return m_num; }
 void IntTerminal::SetNumber(int num) { m_num = num; }
-
 
 ////////////////////////////////////////////////////////////////////////////
 }}}

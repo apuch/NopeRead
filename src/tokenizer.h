@@ -1,6 +1,8 @@
 #ifndef _TOKENIZER_H
 #define _TOKENIZER_H
 
+#include <string>
+
 namespace Nope {
 namespace Parser {
 namespace AST {
@@ -53,6 +55,8 @@ public:
 private:
     int m_num;
 };
+
+
 
 }}}
 

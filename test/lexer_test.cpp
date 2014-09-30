@@ -43,6 +43,13 @@ protected:
         ASSERT_EQ(INTEGER, t->GetCode());
         ASSERT_EQ(expected, t->GetNumber());
     }
+
+    void testOperand(int opcode) {
+        nextToken();
+        ASSERT_TRUE(m_term != NULL);
+        ASSERT_EQ(opcode, m_term->GetCode());
+    }
+
 };
 
 TEST_F(LexerTest, creatingInstance) {
@@ -86,5 +93,15 @@ TEST_F(LexerTest, LineAndCol) {
     nextToken(); testPos(2,4); 
     nextToken(); testPos(3,3); 
     nextToken(); testPos(4,5); 
+}
+
+TEST_F(LexerTest, Operands) {
+    lexer->SetText("+ - * / ( ) ");
+    testOperand(PLUS);
+    testOperand(MINUS);
+    testOperand(TIMES);
+    testOperand(DIVIDE);
+    testOperand(BRACE_L);
+    testOperand(BRACE_R);
 }
 

@@ -18,7 +18,8 @@
 
     void yyerror(const char*);
 
-    static void setTerm(AST::Terminal *term);
+    static AST::Terminal* setTerm(AST::Terminal *term);
+    static int createTerm(int code);
 
     using namespace Nope::Parser::AST;
     using namespace Nope::Lexer;
@@ -29,12 +30,12 @@
 %%
 
 
-\+      return PLUS;
--       return MINUS;
-\/      return DIVIDE;
-\*      return TIMES;
-\(      return BRACE_L;
-\)      return BRACE_R;
+\+      return createTerm(PLUS);
+-       return createTerm(MINUS);
+\/      return createTerm(DIVIDE);
+\*      return createTerm(TIMES);
+\(      return createTerm(BRACE_L);
+\)      return createTerm(BRACE_R);
 
 ([1-9][0-9]*|0) {  
     auto term = new AST::IntTerminal();
@@ -70,9 +71,16 @@
 %%
 
 
-static void setTerm(AST::Terminal* term) {
+static AST::Terminal* setTerm(AST::Terminal* term) {
     term->SetPosition(Position(_lexerLinenum + 1, _lexerColumn - yyleng + 1));
     _lexerTerminal = term;
+    return term;
+}
+
+static int createTerm(int code) {
+    auto term = setTerm(new Terminal());
+    term->SetCode(code);
+    return code;
 }
 
 void _lexerResetPos() {
@@ -83,4 +91,5 @@ void _lexerResetPos() {
 void Nope::Lexer::_resetState() {
     _lexerLinenum = 0;
 }
+
 
