@@ -84,6 +84,35 @@ int IntTerminal::GetNumber() { return m_num; }
 void IntTerminal::SetNumber(int num) { m_num = num; }
 
 ////////////////////////////////////////////////////////////////////////////
+// IntTerminal
+////////////////////////////////////////////////////////////////////////////
+
+BinOp::BinOp() {
+    m_a = NULL;
+    m_b = NULL;
+}
+
+BinOp::~BinOp() {
+    delete m_a;
+    delete m_b;
+}
+
+void BinOp::SetOperands(Symbol* a, Symbol* b) {
+    delete m_a;
+    delete m_b;
+    m_a = a;
+    m_b = b;
+}
+
+void BinOp::GetOperandA() {
+    return m_a;
+}
+
+void BinOp::GetOperandB() {
+    return m_b;
+}
+
+////////////////////////////////////////////////////////////////////////////
 }}}
 
 

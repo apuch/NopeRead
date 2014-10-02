@@ -58,6 +58,22 @@ private:
 
 
 
+class BinOperation {
+public:
+    BinOperation();
+    ~BinOperation();
+
+    void SetOperands(Symbol* a, Symbol* b);
+
+    Symbol* GetOperandA();
+    Symbol* GetOperandB();
+private:
+    Symbol* m_a;
+    Symbol* m_b;
+};
+
+
+
 }}}
 
 #endif
