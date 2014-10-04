@@ -36,6 +36,8 @@
 \*      return createTerm(TIMES);
 \(      return createTerm(BRACE_L);
 \)      return createTerm(BRACE_R);
+\{      return createTerm(BRACE_CL);
+\}      return createTerm(BRACE_CR);
 
 ([1-9][0-9]*|0) {  
     auto term = new AST::IntTerminal();
@@ -64,6 +66,13 @@
             _lexerColumn = 0;
             lexerLineStart = yytext + 1;
         }
+
+[a-zA-Z_][a-zA-Z_0-9]* {
+    auto term = new AST::Identifier();
+    term->SetId(yytext);
+    setTerm(term);
+    return IDENTIFIER;
+}
 
 [ \r\t]   ; // ws -- ignore
 

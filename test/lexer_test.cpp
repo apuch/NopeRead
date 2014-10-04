@@ -50,6 +50,13 @@ protected:
         ASSERT_EQ(opcode, m_term->GetCode());
     }
 
+    void testIdentifier(const std::string& id) {
+        nextToken();
+        ASSERT_TRUE(m_term != NULL);
+        ASSERT_EQ(IDENTIFIER, m_term->GetCode());
+        ASSERT_EQ(id, ((Identifier*)m_term)->GetId());
+    }
+
 };
 
 TEST_F(LexerTest, creatingInstance) {
@@ -95,13 +102,24 @@ TEST_F(LexerTest, LineAndCol) {
     nextToken(); testPos(4,5); 
 }
 
-TEST_F(LexerTest, Operands) {
-    lexer->SetText("+ - * / ( ) ");
+TEST_F(LexerTest, Symbols) {
+    lexer->SetText("+ - * / ( ) { }");
     testOperand(PLUS);
     testOperand(MINUS);
     testOperand(TIMES);
     testOperand(DIVIDE);
     testOperand(BRACE_L);
     testOperand(BRACE_R);
+    testOperand(BRACE_CL);
+    testOperand(BRACE_CR);
+}
+
+TEST_F(LexerTest, Identifier) {
+    lexer->SetText("Foo f00 f x_ __y");
+    testIdentifier("Foo");
+    testIdentifier("f00");
+    testIdentifier("f");
+    testIdentifier("x_");
+    testIdentifier("__y");
 }
 
