@@ -61,4 +61,15 @@ TEST_F(SymbolTest, TranslationUnit) {
     ASSERT_EQ(d, tu->GetDeclarations().front());
 }
 
+TEST_F(SymbolTest, Type) {
+    auto ident = new Identifier();
+    ident->SetId("int");
+    ident->SetPosition(Position(4,5));
+    Type t;
+    t.SetId(ident);
+    ASSERT_EQ("int", t.GetId());
+    ASSERT_EQ(4, t.GetPosition().GetLine());
+    ASSERT_EQ(5, t.GetPosition().GetColumn());
+}
+
 

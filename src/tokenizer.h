@@ -36,24 +36,6 @@ private:
     PSymbol* p;
 };
 
-class NonTerminal : public Symbol {
-};
-
-class Declaration : public NonTerminal {
-};
-
-class PTranslationUnit;
-class TranslationUnit : public NonTerminal {
-public:
-    TranslationUnit();
-    ~TranslationUnit();
-    void Add(Declaration* decl);
-    std::list<Declaration*> GetDeclarations();
-private:
-    PTranslationUnit *p;
-};
-
-
 class PTerminal;
 class Terminal : public Symbol {
 public: 
@@ -75,8 +57,53 @@ private:
     int m_num;
 };
 
+class Identifier : public Terminal {
+public :
+    Identifier();
+    ~Identifier();
+    void SetId(const std::string& id);
+    const std::string& GetId();
+private:
+    std::string m_id;
+};
 
-class BinOp : public Symbol {
+class NonTerminal : public Symbol {
+};
+
+class Declaration : public NonTerminal {
+    
+};
+
+class Type : public NonTerminal {
+public:
+    Type();
+    ~Type();
+    void SetId(Identifier *id);
+    void SetId(const std::string& id);
+    const std::string& GetId();
+private:
+    std::string m_id;
+};
+
+class FuncDecl : public Declaration {
+public:
+    
+};
+
+class PTranslationUnit;
+class TranslationUnit : public NonTerminal {
+public:
+    TranslationUnit();
+    ~TranslationUnit();
+    void Add(Declaration* decl);
+    std::list<Declaration*> GetDeclarations();
+private:
+    PTranslationUnit *p;
+};
+
+
+
+class BinOp : public NonTerminal {
 public:
     BinOp();
     ~BinOp();

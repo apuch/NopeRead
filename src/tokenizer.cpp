@@ -1,3 +1,5 @@
+#include <memory>
+
 #include "tokenizer.h"
 
 //#define LOG_LEVEL LOG_LEVEL_SPAM
@@ -82,6 +84,24 @@ TranslationUnit::~TranslationUnit() { delete p; }
 void TranslationUnit::Add(Declaration* decl) { p->Add(decl); }
 std::list<Declaration*> TranslationUnit::GetDeclarations() { return p->m_decls; }
 
+////////////////////////////////////////////////////////////////////////////
+// Type
+////////////////////////////////////////////////////////////////////////////
+
+Type::Type() {} 
+Type::~Type() {}
+void Type::SetId(Identifier* id) {
+    std::auto_ptr<Identifier> p(id);
+    SetId(id->GetId());
+    SetPosition(id->GetPosition());
+}
+void Type::SetId(const std::string& id) {
+    m_id = id;
+}
+
+const std::string& Type::GetId() {
+    return m_id;
+}
 
 ////////////////////////////////////////////////////////////////////////////
 // Terminal
@@ -109,7 +129,19 @@ int IntTerminal::GetNumber() { return m_num; }
 void IntTerminal::SetNumber(int num) { m_num = num; }
 
 ////////////////////////////////////////////////////////////////////////////
-// IntTerminal
+// Identifier
+////////////////////////////////////////////////////////////////////////////
+
+Identifier::Identifier() {}
+Identifier::~Identifier() {}
+void Identifier::SetId(const std::string& id) {
+    m_id = id;
+}
+const std::string& Identifier::GetId() { return m_id; }
+
+
+////////////////////////////////////////////////////////////////////////////
+// BinOp
 ////////////////////////////////////////////////////////////////////////////
 
 BinOp::BinOp() {
