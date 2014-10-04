@@ -2,6 +2,7 @@
 #define _TOKENIZER_H
 
 #include <string>
+#include <list>
 
 namespace Nope {
 namespace Parser {
@@ -35,6 +36,24 @@ private:
     PSymbol* p;
 };
 
+class NonTerminal : public Symbol {
+};
+
+class Declaration : public NonTerminal {
+};
+
+class PTranslationUnit;
+class TranslationUnit : public NonTerminal {
+public:
+    TranslationUnit();
+    ~TranslationUnit();
+    void Add(Declaration* decl);
+    std::list<Declaration*> GetDeclarations();
+private:
+    PTranslationUnit *p;
+};
+
+
 class PTerminal;
 class Terminal : public Symbol {
 public: 
@@ -57,19 +76,22 @@ private:
 };
 
 
-
-class BinOperation {
+class BinOp : public Symbol {
 public:
-    BinOperation();
-    ~BinOperation();
+    BinOp();
+    ~BinOp();
 
     void SetOperands(Symbol* a, Symbol* b);
+    void SetOperator(Symbol* op);
 
     Symbol* GetOperandA();
     Symbol* GetOperandB();
+    Symbol* GetOperator();
+
 private:
     Symbol* m_a;
     Symbol* m_b;
+    Symbol* m_op;
 };
 
 

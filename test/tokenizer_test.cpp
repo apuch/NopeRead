@@ -50,4 +50,15 @@ TEST_F(SymbolTest, Symbol) {
     ASSERT_EQ(4, m_symbol->GetPosition().GetColumn());
 }
 
+TEST_F(SymbolTest, TranslationUnit) {
+    auto tu = new TranslationUnit();
+    m_symbol = tu;
+    auto decl = tu->GetDeclarations();
+    ASSERT_EQ(0u, decl.size());
+
+    auto d = new Declaration();
+    tu->Add(d);
+    ASSERT_EQ(d, tu->GetDeclarations().front());
+}
+
 

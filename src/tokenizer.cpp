@@ -59,7 +59,32 @@ Position& Symbol::GetPosition() { return p->m_pos; }
 void Symbol::SetPosition(const Position& pos) { p->m_pos = pos; }
 
 ////////////////////////////////////////////////////////////////////////////
-// Symbol
+// TranslationUnit
+////////////////////////////////////////////////////////////////////////////
+
+class PTranslationUnit {
+public:
+    std::list<Declaration*> m_decls;
+
+    ~PTranslationUnit() {
+        for (auto i = m_decls.begin(); i != m_decls.end(); ++i) {
+            delete *i;
+        }
+    }
+
+    void Add(Declaration* decl) {
+        m_decls.push_back(decl);
+    }
+};
+
+TranslationUnit::TranslationUnit() : p(new PTranslationUnit()) {}
+TranslationUnit::~TranslationUnit() { delete p; }
+void TranslationUnit::Add(Declaration* decl) { p->Add(decl); }
+std::list<Declaration*> TranslationUnit::GetDeclarations() { return p->m_decls; }
+
+
+////////////////////////////////////////////////////////////////////////////
+// Terminal
 ////////////////////////////////////////////////////////////////////////////
 
 class PTerminal {
@@ -90,11 +115,13 @@ void IntTerminal::SetNumber(int num) { m_num = num; }
 BinOp::BinOp() {
     m_a = NULL;
     m_b = NULL;
+    m_op = NULL;
 }
 
 BinOp::~BinOp() {
-    delete m_a;
+    delete m_a;    
     delete m_b;
+    delete m_op;
 }
 
 void BinOp::SetOperands(Symbol* a, Symbol* b) {
@@ -104,12 +131,16 @@ void BinOp::SetOperands(Symbol* a, Symbol* b) {
     m_b = b;
 }
 
-void BinOp::GetOperandA() {
+Symbol* BinOp::GetOperandA() {
     return m_a;
 }
 
-void BinOp::GetOperandB() {
+Symbol* BinOp::GetOperandB() {
     return m_b;
+}
+
+Symbol* BinOp::GetOperator() {
+    return m_op;
 }
 
 ////////////////////////////////////////////////////////////////////////////

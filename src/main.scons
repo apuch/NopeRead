@@ -8,6 +8,7 @@ source = [
     'lemon_parser.cpp',
     'lexer.cpp',
     'lexer.internal.cc',
+    'parser.cpp',
     'test.cpp',
     'tokenizer.cpp',
 ]

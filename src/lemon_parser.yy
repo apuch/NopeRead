@@ -1,12 +1,26 @@
-%token_type {int}
+%token_type {Symbol*}
 
 %left PLUS MINUS.   
 %left DIVIDE TIMES.  
    
 %include {   
-#include <iostream>
-#include <assert.h>
-#include "lemon_parser.h"
+    #include <iostream>
+    #include <assert.h>
+    #include "lemon_parser.h"
+    #include "tokenizer.h"
+
+    using namespace Nope::Parser::AST;
+
+    namespace Nope {
+        namespace Parser {
+            namespace Internal {
+                Symbol* createBinOp(Symbol* opA, Symbol* op, Symbol* opB);
+            }
+        }
+    }
+
+    using namespace Nope::Parser::AST;
+    using namespace Nope::Parser::Internal;
 }  
    
 %syntax_error {  
@@ -15,18 +29,11 @@
    
 program ::= expr(A).   { std::cout << "Result=" << A << std::endl; }  
    
-expr(A) ::= expr(B) MINUS  expr(C).   { A = B - C; }  
-expr(A) ::= expr(B) PLUS  expr(C).   { A = B + C; }  
-expr(A) ::= expr(B) TIMES  expr(C).   { A = B * C; }
-expr(A) ::= expr(B) DIVIDE expr(C).  { 
-
-         if(C != 0){
-           A = B / C;
-          }else{
-           std::cout << "divide by zero" << std::endl;
-           }
-}
-expr(A) ::= BRACE_L expr(B) BRACE_R . { A = B; }
+expr(A) ::= expr(B) MINUS(C)  expr(D).   { A = createBinOp(B,C,D); }
+expr(A) ::= expr(B) PLUS(C)   expr(D).   { A = createBinOp(B,C,D); }
+expr(A) ::= expr(B) TIMES(C)  expr(D).   { A = createBinOp(B,C,D); }
+expr(A) ::= expr(B) DIVIDE(C) expr(D).   { A = createBinOp(B,C,D); }
+expr(A) ::= BRACE_L expr(B) BRACE_R .    { A = B; }
 
 
 expr(A) ::= INTEGER(B). { A = B; } 
